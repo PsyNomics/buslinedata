@@ -1,10 +1,12 @@
+package example.mapreduce;
+
 import org.apache.hadoop.io.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class BuslinePerformanceParser {
+public class LineParser {
     private String lineName;
     private String dayOfWeek;
     private int totalGetOnNum = 0;
@@ -13,12 +15,12 @@ public class BuslinePerformanceParser {
 
     // 역별 승하차 인원 총합
     // 첫 번째 줄 제외
-    public BuslinePerformanceParser(Text text) {
+    public LineParser(Text text) {
         try {
             String[] columns = text.toString().split(",");
             lineName = columns[2];
-            totalGetOnNum += Integer.parseInt(columns[6]);
-            totalGetOnNum += Integer.parseInt(columns[7]);
+            totalGetOnNum = Integer.parseInt(columns[6]);
+            totalGetOffNum = Integer.parseInt(columns[7]);
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             String strDate = columns[0];
@@ -32,6 +34,14 @@ public class BuslinePerformanceParser {
         }
     }
 
+    public String getLineName() {
+        return lineName;
+    }
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
     public int getTotalGetOnNum() {
         return totalGetOnNum;
     }
@@ -40,11 +50,4 @@ public class BuslinePerformanceParser {
         return totalGetOffNum;
     }
 
-    public String getLineName() {
-        return lineName;
-    }
-
-    public String getDayOfWeek() {
-        return dayOfWeek;
-    }
 }
